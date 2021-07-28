@@ -5,6 +5,15 @@
  */
 package RentDraft;
 
+import RentDraft.MySqlClass;
+import RentDraft.Car;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author giana
@@ -14,6 +23,12 @@ public class AddCar extends javax.swing.JFrame {
     /**
      * Creates new form AddCar
      */
+    private MySqlClass mySQL = new MySqlClass();
+    private ArrayList<Car> cars;
+    DefaultTableModel model;
+    
+   
+    
     public AddCar() {
         initComponents();
     }
@@ -60,6 +75,11 @@ public class AddCar extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,6 +144,27 @@ public class AddCar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        String licensePlate = jTextField1.getText();
+        String brand = jTextField2.getText();
+        String model = jTextField3.getText();
+        Double price = Double.parseDouble(jTextField4.getText());
+        String descrip = jTextArea1.getText();
+        
+        Car bnew =new Car (licensePlate, brand, model, price, descrip);
+        mySQL.AddRow(bnew);
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextArea1.setText("");
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */

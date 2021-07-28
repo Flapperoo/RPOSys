@@ -32,6 +32,9 @@ public class Car {
         
     }
 
+    Car(String licensePlate, String brand, String model, Double price, String descrip) {
+    }
+
     public String getModel() {
         return model;
     }

@@ -24,7 +24,7 @@ public class MySqlClass {
     ResultSet myRs = null;
 
     String user = "root";
-    String pass = "tilapia";
+    String pass = "root";
 
     public void getConnection()
     {
@@ -36,6 +36,20 @@ public class MySqlClass {
             System.out.println(se.getMessage());			
 	}  
     }      
+    
+    public void AddRow(Car bnew){
+        getConnection();
+        try{
+            myStatement = myConnection.createStatement();
+            String query = "INSERT INTO cars VALUES("+ bnew.getLicensePlate()+", "+bnew.getBrand()+", "+bnew.getModel()+", "+bnew.getPrice()+", "+bnew.getDescription()+"')";
+            myStatement.executeQuery(query);
+            myStatement.close();
+            JOptionPane.showMessageDialog(null,"New Rental Car Added Successfully");
+        }catch (SQLException se){
+            String message = "Cannot Add License Plate Number: "+bnew.getLicensePlate();
+            JOptionPane.showMessageDialog(null, message);
+        }
+    }
         
     public ArrayList<Car> ShowTable()
     {
