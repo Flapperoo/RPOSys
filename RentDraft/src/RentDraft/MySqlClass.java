@@ -42,9 +42,10 @@ public class MySqlClass {
         try{
             myStatement = myConnection.createStatement();
             String query = "INSERT INTO cars VALUES("+ bnew.getLicensePlate()+", "+bnew.getBrand()+", "+bnew.getModel()+", "+bnew.getPrice()+", "+bnew.getDescription()+"')";
-            myStatement.executeQuery(query);
+            myStatement.executeUpdate(query);
             myStatement.close();
             JOptionPane.showMessageDialog(null,"New Rental Car Added Successfully");
+            
         }catch (SQLException se){
             String message = "Cannot Add License Plate Number: "+bnew.getLicensePlate();
             JOptionPane.showMessageDialog(null, message);
