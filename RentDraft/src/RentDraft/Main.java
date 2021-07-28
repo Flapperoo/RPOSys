@@ -5,15 +5,19 @@
  */
 package RentDraft;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author giana
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form main
-     */
+    private MySqlClass mySQL = new MySqlClass();
+    private ArrayList<Car> cars;
+    DefaultTableModel model;
+    
     public Main() {
         initComponents();
     }
@@ -37,6 +41,11 @@ public class Main extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,9 +133,21 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        clearTable();
+        cars = mySQL.ShowTable();
+        
+        model = (DefaultTableModel) jTable1.getModel();
+        for(Car c: cars)    
+           model.addRow(new Object[] {c.getModel(), c.getBrand(), c.getDescription(), c.getPrice(), c.getDateRented(), c.getRentUntil()});
+    }//GEN-LAST:event_formWindowOpened
+
+    public void clearTable()
+    {
+        model=(DefaultTableModel) jTable1.getModel();
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged(); // notifies the JTable that the model has changed
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
