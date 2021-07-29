@@ -60,7 +60,7 @@ public class MySqlClass {
         getConnection();
         try{
             myStatement = myConnection.createStatement();    
-            String sql = "INSERT INTO CARS VALUES ("+ bnew.getLicensePlate()+", '"+bnew.getBrand()+"','"+bnew.getModel()+"','"+bnew.getPrice()+"', '"+bnew.getDescription()+"')";
+            String sql = "INSERT INTO CARS VALUES ('"+ bnew.getLicensePlate()+"', '"+bnew.getBrand()+"', '"+bnew.getModel()+"', "+bnew.getPrice()+", '"+bnew.getDescription()+"')";
             myStatement.executeUpdate(sql);
             myConnection.commit();        
             myStatement.close();    
