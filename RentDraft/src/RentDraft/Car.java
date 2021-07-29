@@ -33,6 +33,11 @@ public class Car {
     }
 
     Car(String licensePlate, String brand, String model, Double price, String descrip) {
+        this.licensePlate = licensePlate;
+        this.brand = brand;
+        this.description = descrip;
+        this.price = price;
+        this.model = model;
     }
 
     public String getModel() {
