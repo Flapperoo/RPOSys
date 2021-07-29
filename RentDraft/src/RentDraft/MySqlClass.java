@@ -44,7 +44,7 @@ public class MySqlClass {
             String query = "INSERT INTO cars VALUES("+ bnew.getLicensePlate()+", "+bnew.getBrand()+", "+bnew.getModel()+", "+bnew.getPrice()+", "+bnew.getDescription()+"')";
             myStatement.executeUpdate(query);
             myStatement.close();
-            JOptionPane.showMessageDialog(null,"New Rental Car Added Successfully");
+            JOptionPane.showMessageDialog(null, "New Rental Car Added Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             
         }catch (SQLException se){
             String message = "Cannot Add License Plate Number: "+bnew.getLicensePlate();
