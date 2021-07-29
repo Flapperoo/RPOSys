@@ -149,11 +149,11 @@ public class AddCar extends javax.swing.JFrame {
         
         String licensePlate = jTextField1.getText();
         String brand = jTextField2.getText();
-        String model = jTextField3.getText();
+        String models = jTextField3.getText();
         Double price = Double.parseDouble(jTextField4.getText());
         String descrip = jTextArea1.getText();
         
-        Car bnew =new Car (licensePlate, brand, model, price, descrip);
+        Car bnew =new Car (licensePlate, brand, models, price, descrip);
         mySQL.AddRow(bnew);
         jTextField1.setText("");
         jTextField2.setText("");

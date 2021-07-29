@@ -30,25 +30,47 @@ public class MySqlClass {
     {
         try {
         // 1. Get a connection to database
-            myConnection = DriverManager.getConnection("jdbc:mysql://localhost/cms", user, pass);
+            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cms", user, pass);
+            
         }catch(SQLException se)
 	{
             System.out.println(se.getMessage());			
 	}  
     }      
+    public void createTable()
+    {
+        getConnection();
+        try{
+            myStatement=myConnection.createStatement();	
+            String sql="create table CARS (\n" +
+"  `licensePlate` varchar(100) NOT NULL,`brand` varchar(100) NOT NULL,\n" +
+"  `model` varchar(100) NOT NULL,`price` double NOT NULL,\n" +
+"  `description` varchar(1000) DEFAULT NULL,\n" +
+"  PRIMARY KEY (`licensePlate`)\n" +
+") ";		
+            myStatement.executeUpdate(sql);
+	}
+	catch(SQLException se)
+	{
+            System.out.println(se.getMessage());			
+	}
+    }
     
     public void AddRow(Car bnew){
         getConnection();
         try{
-            myStatement = myConnection.createStatement();
-            String query = "INSERT INTO cars VALUES("+ bnew.getLicensePlate()+", "+bnew.getBrand()+", "+bnew.getModel()+", "+bnew.getPrice()+", "+bnew.getDescription()+"')";
-            myStatement.executeUpdate(query);
-            myStatement.close();
+            myStatement = myConnection.createStatement();    
+            String sql = "INSERT INTO CARS VALUES ("+ bnew.getLicensePlate()+", '"+bnew.getBrand()+"','"+bnew.getModel()+"','"+bnew.getPrice()+"', '"+bnew.getDescription()+"')";
+            myStatement.executeUpdate(sql);
+            myConnection.commit();        
+            myStatement.close();    
             JOptionPane.showMessageDialog(null, "New Rental Car Added Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
             
+            
         }catch (SQLException se){
-            String message = "Cannot Add License Plate Number: "+bnew.getLicensePlate();
-            JOptionPane.showMessageDialog(null, message);
+            
+            System.out.print(se.getMessage());
+            
         }
     }
         
@@ -63,7 +85,7 @@ public class MySqlClass {
             
             while(rs.next())
             {
-                cars.add(new Car(rs.getString("model"), rs.getString("brand"), rs.getString("description"), rs.getString("licensePlate"), rs.getDouble("price"), rs.getDate("dateRented"), rs.getDate("rentUntil")));
+                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("models"), rs.getDouble("price"), rs.getString("description")));
             }
             
             rs.close();

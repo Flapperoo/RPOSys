@@ -44,57 +44,40 @@ public class Car {
         return model;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
+
 
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getLicensePlate() {
         return licensePlate;
     }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
+
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
 
     public Date getDateRented() {
         return dateRented;
     }
 
-    public void setDateRented(Date dateRented) {
-        this.dateRented = dateRented;
-    }
 
     public Date getRentUntil() {
         return rentUntil;
     }
 
-    public void setRentUntil(Date rentUntil) {
-        this.rentUntil = rentUntil;
-    }
+
     
     public boolean availabilityCheck(Date dateRented, Date rentUntil){
         
@@ -108,8 +91,8 @@ public class Car {
         if your object is larger it will be positive, and if equal it will be zero.*/
     }
     
-    public void rentCar(Date dateRented, Date rentUntil){
-        setDateRented(dateRented);
+     /*public void rentCar(Date dateRented, Date rentUntil){
+       setDateRented(dateRented);
         setRentUntil(rentUntil);
         
     }

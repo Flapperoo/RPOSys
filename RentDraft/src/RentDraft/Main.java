@@ -142,7 +142,7 @@ public class Main extends javax.swing.JFrame {
         
         model = (DefaultTableModel) jTable1.getModel();
         for(Car c: cars)    
-           model.addRow(new Object[] {c.getModel(), c.getBrand(), c.getDescription(), c.getPrice(), c.getDateRented(), c.getRentUntil()});
+           model.addRow(new Object[] {c.getModel(), c.getBrand(), c.getDescription(), c.getPrice()});
     }//GEN-LAST:event_formWindowOpened
 
     public void clearTable()
