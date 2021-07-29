@@ -42,12 +42,7 @@ public class MySqlClass {
         getConnection();
         try{
             myStatement=myConnection.createStatement();	
-            String sql="create table CARS (\n" +
-"  `licensePlate` varchar(100) NOT NULL,`brand` varchar(100) NOT NULL,\n" +
-"  `model` varchar(100) NOT NULL,`price` double NOT NULL,\n" +
-"  `description` varchar(1000) DEFAULT NULL,\n" +
-"  PRIMARY KEY (`licensePlate`)\n" +
-") ";		
+            String sql="create table cars (licensePlate varchar(100) NOT NULL, brand varchar(100) NOT NULL, model varchar(100) NOT NULL, price double NOT NULL, description varchar(1000) DEFAULT NULL PRIMARY KEY(licensePlate))";
             myStatement.executeUpdate(sql);
 	}
 	catch(SQLException se)
@@ -73,6 +68,22 @@ public class MySqlClass {
             
         }
     }
+    
+    public void EditRow(Car bnew, int oldCar)
+    {
+        getConnection();
+        try{
+            myStatement=myConnection.createStatement();	
+            String qry="UPDATE CARS SET licensePlate = " + bnew.getLicensePlate()+ ", brand = '" + bnew.getBrand()+ "' , model = '" + bnew.getModel()+ "', price = '" + bnew.getPrice()+ "', description = '" + bnew.getDescription()+ "' WHERE licensePlate = " + oldCar;
+            myStatement.executeUpdate(qry);
+            myStatement.close();
+            JOptionPane.showMessageDialog(null,"Updated successfully!");
+	}
+	catch(SQLException se)
+	{
+            System.out.println(se.getMessage());			
+	}
+    }
         
     public ArrayList<Car> ShowTable()
     {
@@ -85,7 +96,7 @@ public class MySqlClass {
             
             while(rs.next())
             {
-                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("models"), rs.getDouble("price"), rs.getString("description")));
+                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description")));
             }
             
             rs.close();
