@@ -34,11 +34,11 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        addCarButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        searchByBrandButton = new javax.swing.JButton();
+        searchByModelButton = new javax.swing.JButton();
+        searchByPriceRangeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -62,25 +62,35 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setText("Rental Management System");
 
-        jButton1.setText("Add Car");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addCarButton.setText("Add Car");
+        addCarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addCarButtonActionPerformed(evt);
             }
         });
 
         jButton2.setText("Rent Car");
 
-        jButton3.setText("Search by Brand");
-
-        jButton4.setText("Search by Model");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        searchByBrandButton.setText("Search by Brand");
+        searchByBrandButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                searchByBrandButtonActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Search by Price Range");
+        searchByModelButton.setText("Search by Model");
+        searchByModelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByModelButtonActionPerformed(evt);
+            }
+        });
+
+        searchByPriceRangeButton.setText("Search by Price Range");
+        searchByPriceRangeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByPriceRangeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,15 +104,15 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(addCarButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(searchByBrandButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(searchByModelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)))
+                        .addComponent(searchByPriceRangeButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -112,11 +122,11 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(addCarButton)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(searchByBrandButton)
+                    .addComponent(searchByModelButton)
+                    .addComponent(searchByPriceRangeButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -125,16 +135,12 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCarButtonActionPerformed
         // TODO add your handling code here:
         AddCar addcarframe = new AddCar();
         addcarframe.setVisible(true);
         
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_addCarButtonActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         clearTable();
@@ -142,8 +148,23 @@ public class Main extends javax.swing.JFrame {
         
         model = (DefaultTableModel) jTable1.getModel();
         for(Car c: cars)    
-           model.addRow(new Object[] {c.getModel(), c.getBrand(), c.getDescription(), c.getPrice()});
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription() });
     }//GEN-LAST:event_formWindowOpened
+
+    private void searchByBrandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByBrandButtonActionPerformed
+        SearchByBrand SBB = new SearchByBrand();
+        SBB.setVisible(true);
+    }//GEN-LAST:event_searchByBrandButtonActionPerformed
+
+    private void searchByModelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByModelButtonActionPerformed
+        SearchByModel SBM = new SearchByModel();
+        SBM.setVisible(true);
+    }//GEN-LAST:event_searchByModelButtonActionPerformed
+
+    private void searchByPriceRangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByPriceRangeButtonActionPerformed
+        SearchByPriceRange SBPM = new SearchByPriceRange();
+        SBPM.setVisible(true);
+    }//GEN-LAST:event_searchByPriceRangeButtonActionPerformed
 
     public void clearTable()
     {
@@ -185,13 +206,13 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton addCarButton;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton searchByBrandButton;
+    private javax.swing.JButton searchByModelButton;
+    private javax.swing.JButton searchByPriceRangeButton;
     // End of variables declaration//GEN-END:variables
 }

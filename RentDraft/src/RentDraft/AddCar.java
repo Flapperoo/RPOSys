@@ -28,7 +28,7 @@ public class AddCar extends javax.swing.JFrame {
     private MySqlClass mySQL = new MySqlClass();
     private ArrayList<Car> cars;
     DefaultTableModel model;
-    int oldCar;
+    String oldLicensePlate = "";
     
    
     
@@ -85,7 +85,7 @@ public class AddCar extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Add or Edit Car");
 
@@ -121,13 +121,16 @@ public class AddCar extends javax.swing.JFrame {
                 "License Plate", "Brand", "Model", "Price", "Description"
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable2);
 
         jScrollPane4.setViewportView(jScrollPane3);
 
         EditButton.setText("Edit");
-        EditButton.setMaximumSize(new java.awt.Dimension(51, 23));
-        EditButton.setMinimumSize(new java.awt.Dimension(51, 23));
         EditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditButtonActionPerformed(evt);
@@ -208,7 +211,7 @@ public class AddCar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddButton)
-                    .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EditButton)
                     .addComponent(UpdateButton))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -225,7 +228,7 @@ public class AddCar extends javax.swing.JFrame {
         Double price = Double.parseDouble(jTextField4.getText());
         String descrip = jTextArea1.getText();
         
-        Car bnew =new Car (licensePlate, brand, models, price, descrip);
+        Car bnew = new Car (licensePlate, brand, models, price, descrip);
         mySQL.AddRow(bnew);
         jTextField1.setText("");
         jTextField2.setText("");
@@ -264,9 +267,24 @@ public class AddCar extends javax.swing.JFrame {
         Double price = Double.parseDouble(jTextField4.getText());
         String descrip = jTextArea1.getText();
         
-        Car bnew =new Car (licensePlate, brand, models, price, descrip);
-        mySQL.EditRow(bnew, oldCar);
+        Car bnew = new Car (licensePlate, brand, models, price, descrip);
+        mySQL.EditRow(bnew, oldLicensePlate);
     }//GEN-LAST:event_EditButtonActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        
+        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+        int selectedRowIndex = jTable2.getSelectedRow();
+       
+        jTextField1.setText(model.getValueAt(selectedRowIndex, 0).toString());
+        jTextField2.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        jTextField3.setText(model.getValueAt(selectedRowIndex, 2).toString());
+        jTextField4.setText(model.getValueAt(selectedRowIndex, 3).toString());
+        jTextArea1.setText(model.getValueAt(selectedRowIndex, 4).toString());
+        
+        oldLicensePlate = jTextField1.getText().trim();
+        
+    }//GEN-LAST:event_jTable2MouseClicked
 
     
     /**
