@@ -35,9 +35,9 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="addCarButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="AddButtonMain" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="RentButtonMain" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="179" max="32767" attributes="0"/>
                       <Component id="searchByBrandButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -57,8 +57,8 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="20" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="addCarButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="AddButtonMain" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RentButtonMain" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="searchByBrandButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="searchByModelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="searchByPriceRangeButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -130,18 +130,21 @@
         <Property name="text" type="java.lang.String" value="Rental Management System"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="addCarButton">
+    <Component class="javax.swing.JButton" name="AddButtonMain">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add Car"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addCarButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddButtonMainActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="RentButtonMain">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rent Car"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RentButtonMainActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="searchByBrandButton">
       <Properties>

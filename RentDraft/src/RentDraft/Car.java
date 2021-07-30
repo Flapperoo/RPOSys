@@ -19,8 +19,9 @@ public class Car {
     private double price;
     private Date dateRented;
     private Date rentUntil;
+    private String carStatus;
     
-    Car (String model, String brand, String description, String licensePlate, double price, Date dateRented, Date rentUntil){
+    Car (String model, String brand, String description, String licensePlate, double price, Date dateRented, Date rentUntil, String carStatus){
     
         this.model = model;
         this.brand = brand;
@@ -29,6 +30,7 @@ public class Car {
         this.price = price;
         this.dateRented = dateRented;
         this.rentUntil = rentUntil;
+        this.carStatus = carStatus;
         
     }
 
@@ -38,6 +40,22 @@ public class Car {
         this.description = descrip;
         this.price = price;
         this.model = model;
+    }
+    
+    Car(String licensePlate, String brand, String model, Double price, String descrip, String carStatus) {
+        this.licensePlate = licensePlate;
+        this.brand = brand;
+        this.description = descrip;
+        this.price = price;
+        this.model = model;
+        this.carStatus = carStatus;
+    }
+    
+    Car(String licensePlate, String brand, String model, String carStatus) {
+        this.licensePlate = licensePlate;
+        this.brand = brand;
+        this.model = model;
+        this.carStatus = carStatus;
     }
 
     public String getModel() {
@@ -59,6 +77,10 @@ public class Car {
 
     public String getLicensePlate() {
         return licensePlate;
+    }
+    
+    public String getCarStatus() {
+        return carStatus;
     }
 
 

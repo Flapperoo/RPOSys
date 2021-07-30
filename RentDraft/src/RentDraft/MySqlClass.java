@@ -25,7 +25,7 @@ public class MySqlClass {
     ResultSet myRs = null;
 
     String user = "root";
-    String pass = "tilapia";
+    String pass = "root";
 
     public void getConnection()
     {
@@ -70,6 +70,24 @@ public class MySqlClass {
         }
     }
     
+    public void ReplaceStatus(Car bnew, String Status){
+        getConnection();
+        try{
+            myStatement = myConnection.createStatement();    
+            String sql = "REPLACE (' ', ' ','"+ bnew.getCarStatus()+"')";
+            myStatement.executeUpdate(sql);
+            myConnection.commit();        
+            myStatement.close();    
+            JOptionPane.showMessageDialog(null, "Status Updated Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+            
+            
+        }catch (SQLException se){
+            
+            System.out.print(se.getMessage());
+            
+        }
+    }
+    
     public void EditRow(Car bnew, String oldLicensePlate)
     {
         getConnection();
@@ -96,7 +114,7 @@ public class MySqlClass {
             
             while(rs.next())
             {
-                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description")));
+                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description"), rs.getString("status")));
             }
             
             rs.close();

@@ -34,8 +34,8 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        addCarButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        AddButtonMain = new javax.swing.JButton();
+        RentButtonMain = new javax.swing.JButton();
         searchByBrandButton = new javax.swing.JButton();
         searchByModelButton = new javax.swing.JButton();
         searchByPriceRangeButton = new javax.swing.JButton();
@@ -62,14 +62,19 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setText("Rental Management System");
 
-        addCarButton.setText("Add Car");
-        addCarButton.addActionListener(new java.awt.event.ActionListener() {
+        AddButtonMain.setText("Add Car");
+        AddButtonMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCarButtonActionPerformed(evt);
+                AddButtonMainActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Rent Car");
+        RentButtonMain.setText("Rent Car");
+        RentButtonMain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RentButtonMainActionPerformed(evt);
+            }
+        });
 
         searchByBrandButton.setText("Search by Brand");
         searchByBrandButton.addActionListener(new java.awt.event.ActionListener() {
@@ -104,9 +109,9 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(addCarButton)
+                        .addComponent(AddButtonMain)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(RentButtonMain)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
                         .addComponent(searchByBrandButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -122,8 +127,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addCarButton)
-                    .addComponent(jButton2)
+                    .addComponent(AddButtonMain)
+                    .addComponent(RentButtonMain)
                     .addComponent(searchByBrandButton)
                     .addComponent(searchByModelButton)
                     .addComponent(searchByPriceRangeButton))
@@ -135,12 +140,12 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCarButtonActionPerformed
+    private void AddButtonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonMainActionPerformed
         // TODO add your handling code here:
         AddCar addcarframe = new AddCar();
         addcarframe.setVisible(true);
         
-    }//GEN-LAST:event_addCarButtonActionPerformed
+    }//GEN-LAST:event_AddButtonMainActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         clearTable();
@@ -165,6 +170,12 @@ public class Main extends javax.swing.JFrame {
         SearchByPriceRange SBPM = new SearchByPriceRange();
         SBPM.setVisible(true);
     }//GEN-LAST:event_searchByPriceRangeButtonActionPerformed
+
+    private void RentButtonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RentButtonMainActionPerformed
+        // TODO add your handling code here:
+        RentCar rentcarframe = new RentCar();
+        rentcarframe.setVisible(true);
+    }//GEN-LAST:event_RentButtonMainActionPerformed
 
     public void clearTable()
     {
@@ -206,8 +217,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addCarButton;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton AddButtonMain;
+    private javax.swing.JButton RentButtonMain;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
