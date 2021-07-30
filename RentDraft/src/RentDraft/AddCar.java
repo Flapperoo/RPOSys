@@ -34,6 +34,12 @@ public class AddCar extends javax.swing.JFrame {
     
     public AddCar() {
         initComponents();
+        clearTable();
+        cars = mySQL.ShowTable();
+        
+        model = (DefaultTableModel) jTable2.getModel();
+        for(Car c: cars)    
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
     }
 
     /**
@@ -227,6 +233,12 @@ public class AddCar extends javax.swing.JFrame {
         jTextField4.setText("");
         jTextArea1.setText("");
         
+        clearTable();
+        cars = mySQL.ShowTable();
+        
+        model = (DefaultTableModel) jTable2.getModel();
+        for(Car c: cars)    
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
