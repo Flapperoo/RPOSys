@@ -82,7 +82,7 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel2.setText("Rent by:");
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(), null, java.util.Calendar.DAY_OF_MONTH));
+        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
 
         jLabel3.setText("License Plate:");
 
@@ -90,7 +90,7 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel7.setText("Model:");
 
-        jSpinner2.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(), null, java.util.Calendar.DAY_OF_MONTH));
+        jSpinner2.setModel(new javax.swing.SpinnerDateModel());
 
         jLabel9.setText("Rent Until:");
 
