@@ -105,10 +105,14 @@ public class Startup extends javax.swing.JFrame {
     if(mySQL.getConnection()){
         Main mainForm = new Main();
         mainForm.setVisible(true);
+        dispose();
     }
     else {
          JOptionPane.showMessageDialog(null, "Invalid login");
     }
+    
+    
+    
     
     }//GEN-LAST:event_loginButtonActionPerformed
 
