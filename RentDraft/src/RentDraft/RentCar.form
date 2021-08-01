@@ -161,10 +161,14 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="jSpinner1">
       <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="now" stepSize="5" type="date"/>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="smodel" type="code"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jSpinner1.setEditor(new JSpinner.DateEditor(jSpinner1, &quot;dd/MM/yyyy&quot;));"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="SpinnerDateModel smodel = new SpinnerDateModel();&#xa;smodel.setStart(new java.util.Date());&#xa;smodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));&#xa;smodel.setCalendarField(Calendar.SECOND);"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -183,10 +187,13 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="jSpinner2">
       <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="now" stepSize="5" type="date"/>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="smodel" type="code"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, &quot;dd/MM/yyyy&quot;));"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>

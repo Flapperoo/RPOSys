@@ -18,8 +18,11 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -82,7 +85,12 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel2.setText("Rent by:");
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
+        SpinnerDateModel smodel = new SpinnerDateModel();
+        smodel.setStart(new java.util.Date());
+        smodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));
+        smodel.setCalendarField(Calendar.SECOND);
+        jSpinner1.setModel(smodel);
+        jSpinner1.setEditor(new JSpinner.DateEditor(jSpinner1, "dd/MM/yyyy"));
 
         jLabel3.setText("License Plate:");
 
@@ -90,7 +98,8 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel7.setText("Model:");
 
-        jSpinner2.setModel(new javax.swing.SpinnerDateModel());
+        jSpinner2.setModel(smodel);
+        jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, "dd/MM/yyyy"));
 
         jLabel9.setText("Rent Until:");
 
