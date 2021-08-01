@@ -17,21 +17,19 @@ public class Car {
     private String description;
     private String licensePlate;
     private double price;
-    private Date dateRented;
-    private Date rentUntil;
+    private String dateRented;
+    private String rentUntil;
     private String carStatus;
     
-    Car (String model, String brand, String description, String licensePlate, double price, Date dateRented, Date rentUntil){
+    Car (String licensePlate, String brand, String model, double price, String description,  String dateRented, String rentUntil){
     
-        this.model = model;
-        this.brand = brand;
-        this.description = description;
         this.licensePlate = licensePlate;
+        this.brand = brand;
+        this.model = model;
         this.price = price;
+        this.description = description;
         this.dateRented = dateRented;
-        this.rentUntil = rentUntil;
-        
-        
+        this.rentUntil = rentUntil;  
     }
 
     Car(String licensePlate, String brand, String model, Double price, String descrip) {
@@ -90,12 +88,12 @@ public class Car {
     }
 
 
-    public Date getDateRented() {
+    public String getDateRented() {
         return dateRented;
     }
 
 
-    public Date getRentUntil() {
+    public String getRentUntil() {
         return rentUntil;
     }
 

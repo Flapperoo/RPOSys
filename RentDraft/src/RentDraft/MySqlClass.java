@@ -80,7 +80,7 @@ public class MySqlClass {
             myStatement.executeUpdate(sql);
             myConnection.commit();        
             myStatement.close();    
-            JOptionPane.showMessageDialog(null, "Status Updated Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Status Updated Successfully");
             
             
         }catch (SQLException se){
@@ -118,7 +118,7 @@ public class MySqlClass {
             
             while(rs.next())
             {
-                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description")));
+                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description"), rs.getString("dateRented"), rs.getString("rentUntil")));
             }
             
             rs.close();
