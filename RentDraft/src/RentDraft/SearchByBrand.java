@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,7 +20,6 @@ import javax.swing.table.DefaultTableModel;
 public class SearchByBrand extends javax.swing.JFrame {
 
     private MySqlClass mySQL = new MySqlClass();
-    private MySqlClass brandList = new MySqlClass();
     private ArrayList<Car> cars;
     DefaultTableModel model;
     
@@ -123,7 +123,7 @@ public class SearchByBrand extends javax.swing.JFrame {
         for(Car c: cars)    
            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
         
-        brandList.ShowBrandList(jComboBox1);
+        mySQL.ShowBrandList(jComboBox1);
     }//GEN-LAST:event_formWindowOpened
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
@@ -151,9 +151,10 @@ public class SearchByBrand extends javax.swing.JFrame {
         
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
-   public void clearTable()
+   
+    public void clearTable()
     {
-        model=(DefaultTableModel) jTable1.getModel();
+        model = (DefaultTableModel) jTable1.getModel();
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged(); // notifies the JTable that the model has changed
     }
@@ -180,6 +181,9 @@ public class SearchByBrand extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SearchByBrand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

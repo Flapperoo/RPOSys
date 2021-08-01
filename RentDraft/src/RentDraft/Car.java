@@ -32,7 +32,7 @@ public class Car {
         this.rentUntil = rentUntil;  
     }
 
-    Car(String licensePlate, String brand, String model, Double price, String descrip) {
+    Car(String licensePlate, String brand, String model, double price, String descrip) {
         this.licensePlate = licensePlate;
         this.brand = brand;
         this.description = descrip;
@@ -40,7 +40,7 @@ public class Car {
         this.model = model;
     }
     
-    Car(String licensePlate, String brand, String model, Double price, String descrip, String carStatus) {
+    Car(String licensePlate, String brand, String model, double price, String descrip, String carStatus) {
         this.licensePlate = licensePlate;
         this.brand = brand;
         this.description = descrip;
@@ -61,11 +61,9 @@ public class Car {
     }
 
 
-
     public String getBrand() {
         return brand;
     }
-
 
 
     public String getDescription() {
@@ -82,7 +80,6 @@ public class Car {
     }
 
 
-
     public double getPrice() {
         return price;
     }
@@ -97,34 +94,4 @@ public class Car {
         return rentUntil;
     }
 
-
-    
-    public boolean availabilityCheck(Date dateRented, Date rentUntil){
-        
-        if (dateRented.compareTo(rentUntil) >= 0) {
-            return true;
-        }
-        else
-            return false;
-        
-        /* if number u comparing to is greater, you get negative integer, 
-        if your object is larger it will be positive, and if equal it will be zero.*/
-    }
-    
-     /*public void rentCar(Date dateRented, Date rentUntil){
-       setDateRented(dateRented);
-        setRentUntil(rentUntil);
-        
-    }
-    
-    /* or we can remove the set shiz, i only added setter cuz what if someone wanna do it individually and not obth
-    
-    public void rentCar(Date dateRented, Date rentUntil){
-        this.dateRented = dateRented;
-        this.rentUntil = rentUntil;
-        
-    }
-    
-    */
-    
 }

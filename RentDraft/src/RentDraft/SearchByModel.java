@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 public class SearchByModel extends javax.swing.JFrame {
 
     private MySqlClass mySQL = new MySqlClass();
-    private MySqlClass modelList = new MySqlClass();
     private ArrayList<Car> cars;
     DefaultTableModel model;
     
@@ -118,7 +117,7 @@ public class SearchByModel extends javax.swing.JFrame {
         for(Car c: cars)    
            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
         
-        modelList.ShowModelList(jComboBox1);
+        mySQL.ShowModelList(jComboBox1);
     }//GEN-LAST:event_formWindowOpened
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed

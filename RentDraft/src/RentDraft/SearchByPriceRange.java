@@ -14,11 +14,10 @@ import javax.swing.table.DefaultTableModel;
 public class SearchByPriceRange extends javax.swing.JFrame {
 
     private MySqlClass mySQL = new MySqlClass();
-    private MySqlClass modelList = new MySqlClass();
     private ArrayList<Car> cars;    
-    private    String selectedMinPrice = "";
-     private   String selectedMaxPrice = "";
-     private   String selectedSortOrder = "";
+    private String selectedMinPrice = "";
+    private String selectedMaxPrice = "";
+    private String selectedSortOrder = "";
     DefaultTableModel model;
     
     public SearchByPriceRange() {

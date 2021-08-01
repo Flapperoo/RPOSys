@@ -77,7 +77,7 @@ public class RentCar extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         UpdateButtonRent = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        showOnlyAvailableButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -131,12 +131,6 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel4.setText("Status:");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("Price:");
 
         jLabel8.setText("Description:");
@@ -152,10 +146,10 @@ public class RentCar extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Show Only Available");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        showOnlyAvailableButton.setText("Show Only Available");
+        showOnlyAvailableButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                showOnlyAvailableButtonActionPerformed(evt);
             }
         });
 
@@ -183,7 +177,7 @@ public class RentCar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
-                        .addComponent(jButton1)
+                        .addComponent(showOnlyAvailableButton)
                         .addGap(126, 126, 126))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(RentButton)
@@ -227,7 +221,7 @@ public class RentCar extends javax.swing.JFrame {
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jButton1))
+                    .addComponent(showOnlyAvailableButton))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -321,17 +315,13 @@ public class RentCar extends javax.swing.JFrame {
         oldLicensePlate = jTextField1.getText().trim();
     }//GEN-LAST:event_jTable2MouseClicked
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
     private void UpdateButtonRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonRentActionPerformed
-        // TODO add your handling code here:
+
         UpdateTable();
+        
     }//GEN-LAST:event_UpdateButtonRentActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void showOnlyAvailableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showOnlyAvailableButtonActionPerformed
         // TODO add your handling code here:
         clearTable();
         //cars = mySQL.ShowTable();
@@ -343,7 +333,7 @@ public class RentCar extends javax.swing.JFrame {
         model = (DefaultTableModel) jTable2.getModel();
         for(Car c: cars)    
            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil(), "Available"});
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_showOnlyAvailableButtonActionPerformed
 
     public void clearTable(){
         model=(DefaultTableModel) jTable2.getModel();
@@ -388,7 +378,6 @@ public class RentCar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RentButton;
     private javax.swing.JButton UpdateButtonRent;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -409,6 +398,7 @@ public class RentCar extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton showOnlyAvailableButton;
     // End of variables declaration//GEN-END:variables
 
     private void UpdateTable() {

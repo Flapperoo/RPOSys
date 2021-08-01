@@ -23,19 +23,17 @@ public class MySqlClass {
     Connection myConnection = null;
     Statement myStatement = null;
     ResultSet myRs = null;
-
-    String user = "user";
-    String pass = "admin";
-
-    public void getConnection()
+   
+    public boolean getConnection()
     {
         try {
         // 1. Get a connection to database
-            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cms", user, pass);
-            
+            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cms", AccountManager.getInstance().getCurrentUser(), AccountManager.getInstance().getCurrentPass());
+            return true;
         }catch(SQLException se)
 	{
-            System.out.println(se.getMessage());			
+            System.out.println(se.getMessage()); 
+            return false;			
 	}  
     }      
     public void createTable()
@@ -150,7 +148,7 @@ public class MySqlClass {
         return carBrands;
     }
     
-     public void ShowBrandList(JComboBox jComboBox1){
+     public void ShowBrandList(JComboBox jComboBox){
         getConnection();
         try{
             myStatement = myConnection.createStatement();	
@@ -159,7 +157,7 @@ public class MySqlClass {
             
             ArrayList<String> carBrands = returnDistinctBrands(rs);
             for(int i = 0; i < carBrands.size();i++){
-                jComboBox1.addItem(carBrands.get(i));
+                jComboBox.addItem(carBrands.get(i));
             }
             
             rs.close();
@@ -212,7 +210,7 @@ public class MySqlClass {
         return carModels;
     }
     
-     public void ShowModelList(JComboBox jComboBox1){
+     public void ShowModelList(JComboBox jComboBox){
         getConnection();
         try{
             myStatement = myConnection.createStatement();	
@@ -221,7 +219,7 @@ public class MySqlClass {
             
             ArrayList<String> carModels = returnDistinctModels(rs);
             for(int i = 0; i < carModels.size();i++){
-                jComboBox1.addItem(carModels.get(i));
+                jComboBox.addItem(carModels.get(i));
             }
             
             rs.close();
