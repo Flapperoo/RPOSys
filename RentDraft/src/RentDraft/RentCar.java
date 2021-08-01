@@ -15,8 +15,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,13 +40,7 @@ public class RentCar extends javax.swing.JFrame {
     
     public RentCar() {
         initComponents();
-        
-        
-        cars = mySQL.ShowTable();
-        clearTable();
-        model = (DefaultTableModel) jTable2.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil() });
+        UpdateTable();
     }
 
     /**
@@ -77,6 +74,7 @@ public class RentCar extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         UpdateButtonRent = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,7 +106,7 @@ public class RentCar extends javax.swing.JFrame {
 
             },
             new String [] {
-                "License Plate", "Brand", "Model", "Price", "Description", "Start Date", "End Date"
+                "License Plate", "Brand", "Model", "Price", "Description", "Start Date", "End Date", "Status"
             }
         ));
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -120,7 +118,6 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel4.setText("Status:");
 
-        jTextField4.setText("Booked");
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -135,10 +132,17 @@ public class RentCar extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        UpdateButtonRent.setText("Update");
+        UpdateButtonRent.setText("Show All");
         UpdateButtonRent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UpdateButtonRentActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Show Only Available");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -147,14 +151,12 @@ public class RentCar extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(0, 723, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2)))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -167,7 +169,9 @@ public class RentCar extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(241, 241, 241))
+                        .addGap(42, 42, 42)
+                        .addComponent(jButton1)
+                        .addGap(126, 126, 126))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(RentButton)
                         .addGap(18, 18, 18)
@@ -204,12 +208,13 @@ public class RentCar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -236,7 +241,7 @@ public class RentCar extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RentButton)
                     .addComponent(UpdateButtonRent))
@@ -275,6 +280,27 @@ public class RentCar extends javax.swing.JFrame {
         jTextField1.setText(model.getValueAt(selectedRowIndex, 0).toString());
         jTextField2.setText(model.getValueAt(selectedRowIndex, 1).toString());
         jTextField3.setText(model.getValueAt(selectedRowIndex, 2).toString());
+        Date currentDate = (Date) jSpinner1.getValue();
+        SimpleDateFormat fm1 = new SimpleDateFormat("yyyy-MM-dd");
+        String startDateRaw = (String) model.getValueAt(selectedRowIndex, 5);
+        String endDateRaw = (String) model.getValueAt(selectedRowIndex, 6);
+        if(startDateRaw != null || endDateRaw != null){
+            try {
+                Date startDate = fm1.parse(startDateRaw);
+                Date endDate = fm1.parse(endDateRaw);
+                if(currentDate.before(endDate)){
+                jTextField4.setText("Out");
+                } else if(currentDate.before(startDate)){
+                    jTextField4.setText("Booked");
+                } else {
+                    jTextField4.setText("Available");
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(RentCar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            jTextField4.setText("Available");
+        }
         jTextField5.setText(model.getValueAt(selectedRowIndex, 3).toString());
         jTextArea1.setText(model.getValueAt(selectedRowIndex, 4).toString());
         
@@ -289,13 +315,22 @@ public class RentCar extends javax.swing.JFrame {
 
     private void UpdateButtonRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonRentActionPerformed
         // TODO add your handling code here:
+        UpdateTable();
+    }//GEN-LAST:event_UpdateButtonRentActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
         clearTable();
-        cars = mySQL.ShowTable();
+        //cars = mySQL.ShowTable();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd");
+        String dateRented = formater.format(jSpinner1.getValue());
+        
+        cars = mySQL.ShowFilteredDate(dateRented);
         
         model = (DefaultTableModel) jTable2.getModel();
         for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil()});
-    }//GEN-LAST:event_UpdateButtonRentActionPerformed
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil(), "Available"});
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void clearTable(){
         model=(DefaultTableModel) jTable2.getModel();
@@ -340,6 +375,7 @@ public class RentCar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RentButton;
     private javax.swing.JButton UpdateButtonRent;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -361,4 +397,35 @@ public class RentCar extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
+
+    private void UpdateTable() {
+        clearTable();
+        cars = mySQL.ShowTable();
+        model = (DefaultTableModel) jTable2.getModel();
+        for(Car c: cars){   
+            Date currentDate = (Date) jSpinner1.getValue();
+            SimpleDateFormat fm1 = new SimpleDateFormat("yyyy-MM-dd");
+            String startDateRaw = (String) c.getDateRented();
+            String endDateRaw = (String) c.getRentUntil();
+            String status = null;
+            if(startDateRaw != null || endDateRaw != null){
+                 try {
+                     Date startDate = fm1.parse(startDateRaw);
+                     Date endDate = fm1.parse(endDateRaw);
+                     if(currentDate.before(startDate)){
+                     status = "Booked";
+                     } else if(currentDate.before(endDate)){
+                         status = "Out";
+                     } else {
+                         status = "Available";
+                     }
+                 } catch (ParseException ex) {
+                     Logger.getLogger(RentCar.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+            } else {
+                 status = "Available";
+            }
+            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil(), status});
+        }
+    }
 }

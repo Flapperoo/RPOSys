@@ -24,8 +24,8 @@ public class MySqlClass {
     Statement myStatement = null;
     ResultSet myRs = null;
 
-    String user = "root";
-    String pass = "root";
+    String user = "user";
+    String pass = "admin";
 
     public void getConnection()
     {
@@ -289,7 +289,28 @@ public class MySqlClass {
             System.out.println(sex.getMessage());
 	}
         return cars;
-    }  
+    } 
+    
+    public ArrayList<Car> ShowFilteredDate(String date){
+        ArrayList<Car> cars = new ArrayList<>();
+        getConnection();
+        
+        try{
+            myStatement = myConnection.createStatement();
+            String query = "SELECT * FROM CARS WHERE ((rentUntil BETWEEN '0000/0/0' AND '" + date + "') AND (dateRented NOT BETWEEN '" + date + "' AND '9999/12/12')) OR (dateRented IS NULL)";
+            ResultSet rs = myStatement.executeQuery(query);
+            while(rs.next())
+            {
+                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description"), rs.getString("dateRented"), rs.getString("rentUntil")));
+            }
+            
+            rs.close();
+	    myStatement.close();
+        } catch(SQLException sex) {
+            System.out.println(sex.getMessage());
+        }
+        return cars;
+    }
 }
 
 
