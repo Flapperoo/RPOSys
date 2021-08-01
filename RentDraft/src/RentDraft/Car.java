@@ -21,7 +21,7 @@ public class Car {
     private Date rentUntil;
     private String carStatus;
     
-    Car (String model, String brand, String description, String licensePlate, double price, Date dateRented, Date rentUntil, String carStatus){
+    Car (String model, String brand, String description, String licensePlate, double price, Date dateRented, Date rentUntil){
     
         this.model = model;
         this.brand = brand;
@@ -30,7 +30,7 @@ public class Car {
         this.price = price;
         this.dateRented = dateRented;
         this.rentUntil = rentUntil;
-        this.carStatus = carStatus;
+        
         
     }
 

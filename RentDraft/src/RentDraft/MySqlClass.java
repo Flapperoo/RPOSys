@@ -43,7 +43,8 @@ public class MySqlClass {
         getConnection();
         try{
             myStatement=myConnection.createStatement();	
-            String sql="create table cars (licensePlate varchar(100) NOT NULL, brand varchar(100) NOT NULL, model varchar(100) NOT NULL, price double NOT NULL, description varchar(1000) DEFAULT NULL PRIMARY KEY(licensePlate))";
+            String sql="create table cars (licensePlate varchar(100) NOT NULL, brand varchar(100) NOT NULL, model varchar(100) "
+                    + "NOT NULL, price double NOT NULL, description varchar(1000), dateRented date, rentUntil date DEFAULT NULL PRIMARY KEY(licensePlate))";
             myStatement.executeUpdate(sql);
 	}
 	catch(SQLException se)
@@ -56,11 +57,11 @@ public class MySqlClass {
         getConnection();
         try{
             myStatement = myConnection.createStatement();    
-            String sql = "INSERT INTO CARS VALUES ('"+ bnew.getLicensePlate()+"', '"+bnew.getBrand()+"', '"+bnew.getModel()+"', "+bnew.getPrice()+", '"+bnew.getDescription()+"')";
+            String sql = "INSERT INTO CARS (licensePlate, brand, model, price, description) VALUES ('"+bnew.getLicensePlate()+"', '"+bnew.getBrand()+"', '"+bnew.getModel()+"', '"+bnew.getPrice()+"', '"+bnew.getDescription()+"')";
             myStatement.executeUpdate(sql);
             myConnection.commit();        
             myStatement.close();    
-            JOptionPane.showMessageDialog(null, "New Rental Car Added Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "New Rental Car Added Successfully");
             
             
         }catch (SQLException se){
@@ -70,11 +71,12 @@ public class MySqlClass {
         }
     }
     
-    public void ReplaceStatus(Car bnew, String Status){
+    public void ReplaceStatus(Car bnew, String oldLicensePlate){
         getConnection();
         try{
             myStatement = myConnection.createStatement();    
-            String sql = "REPLACE (' ', ' ','"+ bnew.getCarStatus()+"')";
+            String sql = "UPDATE CARS SET licensePlate = '"+bnew.getLicensePlate()+"', brand = '"+bnew.getBrand()+"', model = '"+bnew.getModel()+"', price = '"+bnew.getPrice()+"', description = '"+bnew.getDescription()+"', dateRented = '"+bnew.getDateRented()+"', rentUntil = '"+bnew.getRentUntil()+"' WHERE licensePlate = '"+ oldLicensePlate+"'";
+            
             myStatement.executeUpdate(sql);
             myConnection.commit();        
             myStatement.close();    
@@ -93,7 +95,9 @@ public class MySqlClass {
         getConnection();
         try{
             myStatement=myConnection.createStatement();	
-            String qry="UPDATE CARS SET licensePlate = '" + bnew.getLicensePlate()+ "', brand = '" + bnew.getBrand()+ "' , model = '" + bnew.getModel()+ "', price = '" + bnew.getPrice()+ "', description = '" + bnew.getDescription()+ "' WHERE licensePlate = '" + oldLicensePlate + "'";
+            String qry="UPDATE CARS SET licensePlate = '" + bnew.getLicensePlate()+ "', brand = '" + bnew.getBrand()+ "' ,"
+                    + " model = '" + bnew.getModel()+ "', price = '" + bnew.getPrice()+ "', description = '" + bnew.getDescription()+ "' "
+                    + "WHERE licensePlate = '" + oldLicensePlate + "'";
             myStatement.executeUpdate(qry);
             myStatement.close();
             JOptionPane.showMessageDialog(null,"Updated successfully!");
@@ -114,7 +118,7 @@ public class MySqlClass {
             
             while(rs.next())
             {
-                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description"), rs.getString("status")));
+                cars.add(new Car(rs.getString("licensePlate"), rs.getString("brand"), rs.getString("model"), rs.getDouble("price"), rs.getString("description")));
             }
             
             rs.close();

@@ -5,14 +5,17 @@
  */
 package RentDraft;
 
+
 import RentDraft.MySqlClass;
 import RentDraft.Car;
+import java.util.Date;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,7 +42,7 @@ public class RentCar extends javax.swing.JFrame {
         clearTable();
         model = (DefaultTableModel) jTable2.getModel();
         for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getCarStatus() });
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getCarStatus(), c.getDateRented(), c.getRentUntil() });
     }
 
     /**
@@ -104,7 +107,7 @@ public class RentCar extends javax.swing.JFrame {
 
             },
             new String [] {
-                "License Plate", "Brand", "Model", "Price", "Description", "Status"
+                "License Plate", "Brand", "Model", "Price", "Description", "Start Date", "End Date"
             }
         ));
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -242,14 +245,20 @@ public class RentCar extends javax.swing.JFrame {
         String licensePlate = jTextField1.getText();
         String brand = jTextField2.getText();
         String models = jTextField3.getText();
-        Double price = Double.parseDouble(jTextField5.getText());
         String descrip = jTextArea1.getText();
         String carStatus = jTextField4.getText();
+        Double price = Double.parseDouble(jTextField5.getText());
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd");
+       
         
+        String dateRented = formater.format(jSpinner1.getValue());
+        String rentUntil = formater.format(jSpinner2.getValue());
+       
+        java.util.Date utilDate = new Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         
-        
-        Car bnew = new Car (licensePlate, brand, models, price, descrip, carStatus);
-        mySQL.EditRow(bnew, Status);
+        Car bnew = new Car (licensePlate, brand, models, price, descrip, rentUntil);
+        mySQL.ReplaceStatus(bnew, Status);
     }//GEN-LAST:event_RentButtonActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
