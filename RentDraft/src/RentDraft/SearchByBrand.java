@@ -17,8 +17,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author paolo
  */
-public class SearchByBrand extends javax.swing.JFrame {
+public class SearchByBrand extends SearchByClass {
 
+    
     private MySqlClass mySQL = new MySqlClass();
     private ArrayList<Car> cars;
     DefaultTableModel model;
@@ -116,48 +117,13 @@ public class SearchByBrand extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable1.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
-        
-        mySQL.ShowBrandList(jComboBox1);
+       onFormWindowOpen(jTable1,jComboBox1);
     }//GEN-LAST:event_formWindowOpened
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-
-        if (jComboBox1.getSelectedItem() == "None"){
-            clearTable();
-            cars = mySQL.ShowTable();
-
-            model = (DefaultTableModel) jTable1.getModel();
-            for(Car c: cars)    
-               model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()}); 
-        }
-        
-        else {
-            clearTable();
-            String selectedBrand = jComboBox1.getSelectedItem().toString();
-            cars = mySQL.ShowFilteredBrandTable(selectedBrand);
-            
-            model = (DefaultTableModel) jTable1.getModel();
-            for(Car c: cars)    
-               model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()}); 
-            
-        }
-        
-        
+       onUpdateButtonActionPerformed(jTable1,jComboBox1);       
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
-   
-    public void clearTable()
-    {
-        model = (DefaultTableModel) jTable1.getModel();
-        model.getDataVector().removeAllElements();
-        model.fireTableDataChanged(); // notifies the JTable that the model has changed
-    }
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -202,4 +168,14 @@ public class SearchByBrand extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void showList(JComboBox jComboBox1) {
+        mySQL.ShowBrandList(jComboBox1);
+    }
+
+    @Override
+    protected ArrayList<Car> setCarsToFilteredTable(String filter) {
+        return mySQL.ShowFilteredBrandTable(filter);
+    }
 }

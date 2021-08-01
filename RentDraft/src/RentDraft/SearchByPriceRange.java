@@ -8,10 +8,11 @@ package RentDraft;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
     
-public class SearchByPriceRange extends javax.swing.JFrame {
+public class SearchByPriceRange extends SearchByClass {
 
     private MySqlClass mySQL = new MySqlClass();
     private ArrayList<Car> cars;    
@@ -134,12 +135,7 @@ public class SearchByPriceRange extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable1.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
+        onFormWindowOpen(jTable1,jComboBox1);
     }//GEN-LAST:event_formWindowOpened
 
     private void updateSelectedPriceRange(String selectedPriceRange){
@@ -187,24 +183,7 @@ public class SearchByPriceRange extends javax.swing.JFrame {
     }
     
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-        clearTable();
-        String selectedPriceRange = jComboBox1.getSelectedItem().toString();
-        
-        updateSelectedPriceRange(selectedPriceRange);
-            switch (selectedPriceRange){
-            case "None":
-            {
-                cars = mySQL.ShowTable();
-                break;
-            }                    
-            default:
-                cars = mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);
-                break;
-            
-        }
-        model = (DefaultTableModel) jTable1.getModel();
-        for(Car c: cars)    
-            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
+        onUpdateButtonActionPerformed(jTable1,jComboBox1);   
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
     private void AscendingOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AscendingOrderButtonActionPerformed
@@ -302,4 +281,15 @@ public class SearchByPriceRange extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void showList(JComboBox jComboBox1) {
+        return;
+    }
+
+    @Override
+    protected ArrayList<Car> setCarsToFilteredTable(String filter) {
+        updateSelectedPriceRange(jComboBox1.getSelectedItem().toString());
+        return mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);
+    }
 }

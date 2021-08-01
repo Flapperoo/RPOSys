@@ -39,6 +39,7 @@ public class Main extends javax.swing.JFrame {
         searchByBrandButton = new javax.swing.JButton();
         searchByModelButton = new javax.swing.JButton();
         searchByPriceRangeButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -97,6 +98,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,7 +120,9 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(AddButtonMain)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(RentButtonMain)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                        .addGap(52, 52, 52)
+                        .addComponent(updateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addComponent(searchByBrandButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchByModelButton)
@@ -131,7 +141,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(RentButtonMain)
                     .addComponent(searchByBrandButton)
                     .addComponent(searchByModelButton)
-                    .addComponent(searchByPriceRangeButton))
+                    .addComponent(searchByPriceRangeButton)
+                    .addComponent(updateButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -176,6 +187,15 @@ public class Main extends javax.swing.JFrame {
         RentCar rentcarframe = new RentCar();
         rentcarframe.setVisible(true);
     }//GEN-LAST:event_RentButtonMainActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        clearTable();
+        cars = mySQL.ShowTable();
+        
+        model = (DefaultTableModel) jTable1.getModel();
+        for(Car c: cars)    
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription() });
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     public void clearTable()
     {
@@ -225,5 +245,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton searchByBrandButton;
     private javax.swing.JButton searchByModelButton;
     private javax.swing.JButton searchByPriceRangeButton;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
