@@ -98,7 +98,11 @@ public class RentCar extends javax.swing.JFrame {
 
         jLabel7.setText("Model:");
 
-        jSpinner2.setModel(smodel);
+        SpinnerDateModel nmodel = new SpinnerDateModel();
+        nmodel.setStart(new java.util.Date());
+        nmodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));
+        nmodel.setCalendarField(Calendar.SECOND);
+        jSpinner2.setModel(nmodel);
         jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, "dd/MM/yyyy"));
 
         jLabel9.setText("Rent Until:");

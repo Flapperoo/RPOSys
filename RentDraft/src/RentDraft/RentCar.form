@@ -188,11 +188,12 @@
     <Component class="javax.swing.JSpinner" name="jSpinner2">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="smodel" type="code"/>
+          <Connection code="nmodel" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, &quot;dd/MM/yyyy&quot;));"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="SpinnerDateModel nmodel = new SpinnerDateModel();&#xa;nmodel.setStart(new java.util.Date());&#xa;nmodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));&#xa;nmodel.setCalendarField(Calendar.SECOND);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
