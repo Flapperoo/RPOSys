@@ -5,7 +5,12 @@
  */
 package RentDraft;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -50,13 +55,13 @@ public class Main extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "License Plate", "Brand", "Model", "Price", "Description"
+                "License Plate", "Brand", "Model", "Price", "Description", "Date Rented", "Rent Until", "Status"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -160,11 +165,7 @@ public class Main extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable1.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription() });
+        updateTable();
     }//GEN-LAST:event_formWindowOpened
 
     private void searchByBrandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByBrandButtonActionPerformed
@@ -190,11 +191,7 @@ public class Main extends javax.swing.JFrame {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable1.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription() });
+        updateTable();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     public void clearTable()
@@ -234,6 +231,37 @@ public class Main extends javax.swing.JFrame {
                 new Main().setVisible(true);
             }
         });
+    }
+    
+    public void updateTable(){
+        clearTable();
+        cars = mySQL.ShowTable();
+        model = (DefaultTableModel) jTable1.getModel();
+        for(Car c: cars){   
+            Date currentDate = new Date();
+            SimpleDateFormat fm1 = new SimpleDateFormat("yyyy-MM-dd");
+            String startDateRaw = (String) c.getDateRented();
+            String endDateRaw = (String) c.getRentUntil();
+            String status = null;
+            if(startDateRaw != null || endDateRaw != null){
+                 try {
+                     Date startDate = fm1.parse(startDateRaw);
+                     Date endDate = fm1.parse(endDateRaw);
+                     if(currentDate.before(startDate)){
+                     status = "Booked";
+                     } else if(currentDate.before(endDate)){
+                         status = "Out";
+                     } else {
+                         status = "Available";
+                     }
+                 } catch (ParseException ex) {
+                     Logger.getLogger(RentCar.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+            } else {
+                 status = "Available";
+            }
+            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil(), status});
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
