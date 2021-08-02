@@ -5,15 +5,24 @@
  */
 package RentDraft;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author giana
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form main
-     */
+    private MySqlClass mySQL = new MySqlClass();
+    private ArrayList<Car> cars;
+    DefaultTableModel model;
+    
     public Main() {
         initComponents();
     }
@@ -30,48 +39,76 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        AddButtonMain = new javax.swing.JButton();
+        RentButtonMain = new javax.swing.JButton();
+        searchByBrandButton = new javax.swing.JButton();
+        searchByModelButton = new javax.swing.JButton();
+        searchByPriceRangeButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "License Plate", "Brand", "Model", "Price", "Description", "Date Rented", "Rent Until", "Status"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setText("Rental Management System");
 
-        jButton1.setText("Add Car");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AddButtonMain.setText("Add Car");
+        AddButtonMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddButtonMainActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Rent Car");
-
-        jButton3.setText("Search by Brand");
-
-        jButton4.setText("Search by Model");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        RentButtonMain.setText("Rent Car");
+        RentButtonMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                RentButtonMainActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Search by Price Range");
+        searchByBrandButton.setText("Search by Brand");
+        searchByBrandButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByBrandButtonActionPerformed(evt);
+            }
+        });
+
+        searchByModelButton.setText("Search by Model");
+        searchByModelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByModelButtonActionPerformed(evt);
+            }
+        });
+
+        searchByPriceRangeButton.setText("Search by Price Range");
+        searchByPriceRangeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchByPriceRangeButtonActionPerformed(evt);
+            }
+        });
+
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,15 +122,17 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(AddButtonMain)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(RentButtonMain)
+                        .addGap(52, 52, 52)
+                        .addComponent(updateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(searchByBrandButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(searchByModelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)))
+                        .addComponent(searchByPriceRangeButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -103,11 +142,12 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(AddButtonMain)
+                    .addComponent(RentButtonMain)
+                    .addComponent(searchByBrandButton)
+                    .addComponent(searchByModelButton)
+                    .addComponent(searchByPriceRangeButton)
+                    .addComponent(updateButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -116,17 +156,42 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void AddButtonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonMainActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        AddCar addcarframe = new AddCar();
+        addcarframe.setVisible(true);
+        
+    }//GEN-LAST:event_AddButtonMainActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        updateTable();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void searchByBrandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByBrandButtonActionPerformed
+        SearchByBrand SBB = new SearchByBrand();
+        SBB.setVisible(true);
+    }//GEN-LAST:event_searchByBrandButtonActionPerformed
+
+    private void searchByModelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByModelButtonActionPerformed
+        SearchByModel SBM = new SearchByModel();
+        SBM.setVisible(true);
+    }//GEN-LAST:event_searchByModelButtonActionPerformed
+
+    private void searchByPriceRangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByPriceRangeButtonActionPerformed
+        SearchByPriceRange SBPM = new SearchByPriceRange();
+        SBPM.setVisible(true);
+    }//GEN-LAST:event_searchByPriceRangeButtonActionPerformed
+
+    private void RentButtonMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RentButtonMainActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        RentCar rentcarframe = new RentCar();
+        rentcarframe.setVisible(true);
+    }//GEN-LAST:event_RentButtonMainActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        updateTable();
+    }//GEN-LAST:event_updateButtonActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -159,15 +224,49 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void updateTable(){
+        model=(DefaultTableModel) jTable1.getModel();
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged(); // notifies the JTable that the model has changed
+        cars = mySQL.ShowTable();
+        model = (DefaultTableModel) jTable1.getModel();
+        for(Car c: cars){   
+            Date currentDate = new Date();
+            SimpleDateFormat fm1 = new SimpleDateFormat("yyyy-MM-dd");
+            String startDateRaw = (String) c.getDateRented();
+            String endDateRaw = (String) c.getRentUntil();
+            String status = null;
+            if(startDateRaw != null || endDateRaw != null){
+                 try {
+                     Date startDate = fm1.parse(startDateRaw);
+                     Date endDate = fm1.parse(endDateRaw);
+                     if(currentDate.before(startDate)){
+                     status = "Booked";
+                     } else if(currentDate.before(endDate)){
+                         status = "Out";
+                     } else {
+                         status = "Available";
+                     }
+                 } catch (ParseException ex) {
+                     Logger.getLogger(RentCar.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+            } else {
+                 status = "Available";
+            }
+            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription(), c.getDateRented(), c.getRentUntil(), status});
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton AddButtonMain;
+    private javax.swing.JButton RentButtonMain;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton searchByBrandButton;
+    private javax.swing.JButton searchByModelButton;
+    private javax.swing.JButton searchByPriceRangeButton;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

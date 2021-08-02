@@ -5,15 +5,20 @@
  */
 package RentDraft;
 
-/**
- *
- * @author giana
- */
-public class SearchByPriceRange extends javax.swing.JFrame {
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
 
-    /**
-     * Creates new form SearchByPriceRange
-     */
+    
+public class SearchByPriceRange extends SearchByClass {
+
+    private MySqlClass mySQL = new MySqlClass();
+    private ArrayList<Car> cars;    
+    private String selectedMinPrice = "";
+    private String selectedMaxPrice = "";
+    private String selectedSortOrder = "";
+    DefaultTableModel model;
+    
     public SearchByPriceRange() {
         initComponents();
     }
@@ -32,18 +37,26 @@ public class SearchByPriceRange extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        UpdateButton = new javax.swing.JButton();
+        AscendingOrderButton = new javax.swing.JButton();
+        DescendingOrderButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "License Plate", "Brand", "Model", "Price", "Description"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -52,7 +65,28 @@ public class SearchByPriceRange extends javax.swing.JFrame {
 
         jLabel2.setText("Price Range:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Below 2,500", "2,500 to 4,999", "5,000 to 7,499", "7,500 to 9,999", "10,000 to 12,499", "12,500 to 14,999", "15,000 to 17,499", "17,500 to 20,000" }));
+
+        UpdateButton.setText("Update");
+        UpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateButtonActionPerformed(evt);
+            }
+        });
+
+        AscendingOrderButton.setText("Ascending");
+        AscendingOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AscendingOrderButtonActionPerformed(evt);
+            }
+        });
+
+        DescendingOrderButton.setText("Descending");
+        DescendingOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DescendingOrderButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,7 +102,13 @@ public class SearchByPriceRange extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(UpdateButton)
+                                .addGap(108, 108, 108)
+                                .addComponent(AscendingOrderButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(DescendingOrderButton)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -80,8 +120,11 @@ public class SearchByPriceRange extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UpdateButton)
+                    .addComponent(AscendingOrderButton)
+                    .addComponent(DescendingOrderButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -89,9 +132,111 @@ public class SearchByPriceRange extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        onFormWindowOpen(jTable1,jComboBox1);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void updateSelectedPriceRange(String selectedPriceRange){
+          switch (selectedPriceRange){
+              case "None":
+                  selectedMinPrice = "0"; 
+                  selectedMaxPrice = "20000";
+                  break;
+                  
+              case "Below 2,500":
+                  selectedMinPrice = "0"; //The reason it is a string is because it will be placed into a String query for MySQL, making it a string already removes the need to parse / convert.
+                  selectedMaxPrice = "2499";
+                  break;
+                  
+              case "2,500 to 4,999":
+                  selectedMinPrice = "2500"; 
+                  selectedMaxPrice = "4999";
+                  break;
+              
+              case "5,000 to 7,499":
+                  selectedMinPrice = "5000";
+                  selectedMaxPrice = "7499";
+                  break;
+              case "7,500 to 9,999":
+                  selectedMinPrice = "7500";
+                  selectedMaxPrice = "9999";
+                  break;
+              case "10,000 to 12,499":
+                  selectedMinPrice = "10000";
+                  selectedMaxPrice = "12499";
+                  break;
+              case "12,500 to 14,999":
+                  selectedMinPrice = "12500";
+                  selectedMaxPrice = "14999";
+                  break;
+              case "15,000 to 17,499":
+                  selectedMinPrice = "15000";
+                  selectedMaxPrice = "17499";
+                  break;
+              case "17,500 to 20,000":
+                  selectedMinPrice = "17500";
+                  selectedMaxPrice = "20000";
+                  break;
+        }
+    }
+    
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
+        onUpdateButtonActionPerformed(jTable1,jComboBox1);   
+    }//GEN-LAST:event_UpdateButtonActionPerformed
+
+    private void AscendingOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AscendingOrderButtonActionPerformed
+        clearTable();
+        String selectedPriceRange = jComboBox1.getSelectedItem().toString();
+        selectedSortOrder = "ascending";
+        
+        updateSelectedPriceRange(selectedPriceRange);
+            switch (selectedPriceRange){
+            case "None":
+            {
+                cars = mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);;
+                break;
+            }                    
+            default:
+                cars = mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);
+                break;
+            
+        }
+        model = (DefaultTableModel) jTable1.getModel();
+        for(Car c: cars)    
+            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
+    
+    }//GEN-LAST:event_AscendingOrderButtonActionPerformed
+
+    private void DescendingOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescendingOrderButtonActionPerformed
+        clearTable();
+        String selectedPriceRange = jComboBox1.getSelectedItem().toString();
+        selectedSortOrder = "descending";
+        
+        updateSelectedPriceRange(selectedPriceRange);
+            switch (selectedPriceRange){
+            case "None":
+            {
+                cars = mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);
+                break;
+            }                    
+            default:
+                cars = mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);
+                break;
+            
+        }
+        model = (DefaultTableModel) jTable1.getModel();
+        for(Car c: cars)    
+            model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
+        
+    }//GEN-LAST:event_DescendingOrderButtonActionPerformed
+
+   public void clearTable()
+    {
+        model=(DefaultTableModel) jTable1.getModel();
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged(); // notifies the JTable that the model has changed
+    }
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -125,10 +270,23 @@ public class SearchByPriceRange extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AscendingOrderButton;
+    private javax.swing.JButton DescendingOrderButton;
+    private javax.swing.JButton UpdateButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void showList(JComboBox jComboBox1) {
+    }
+
+    @Override
+    protected ArrayList<Car> setCarsToFilteredTable(String filter) {
+        updateSelectedPriceRange(jComboBox1.getSelectedItem().toString());
+        return mySQL.ShowFilteredPriceRangeTable(selectedMinPrice, selectedMaxPrice, selectedSortOrder);
+    }
 }
