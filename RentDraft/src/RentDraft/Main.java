@@ -164,7 +164,6 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_AddButtonMainActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        clearTable();
         updateTable();
     }//GEN-LAST:event_formWindowOpened
 
@@ -190,16 +189,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_RentButtonMainActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        clearTable();
         updateTable();
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    public void clearTable()
-    {
-        model=(DefaultTableModel) jTable1.getModel();
-        model.getDataVector().removeAllElements();
-        model.fireTableDataChanged(); // notifies the JTable that the model has changed
-    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -234,7 +226,9 @@ public class Main extends javax.swing.JFrame {
     }
     
     public void updateTable(){
-        clearTable();
+        model=(DefaultTableModel) jTable1.getModel();
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged(); // notifies the JTable that the model has changed
         cars = mySQL.ShowTable();
         model = (DefaultTableModel) jTable1.getModel();
         for(Car c: cars){   

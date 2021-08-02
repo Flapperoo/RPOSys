@@ -5,14 +5,6 @@
  */
 package RentDraft;
 
-import RentDraft.MySqlClass;
-import RentDraft.Car;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +19,6 @@ public class AddCar extends javax.swing.JFrame {
      */
     private MySqlClass mySQL = new MySqlClass();
     private ArrayList<Car> cars;
-    private ArrayList<Car> temporary;
     DefaultTableModel model;
     String oldLicensePlate = "";
     
@@ -35,12 +26,7 @@ public class AddCar extends javax.swing.JFrame {
     
     public AddCar() {
         initComponents();
-        clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable2.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
+        updateTable();
     }
 
     /**
@@ -156,23 +142,20 @@ public class AddCar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField4)
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,8 +165,8 @@ public class AddCar extends javax.swing.JFrame {
                                 .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(UpdateButton))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,10 +196,11 @@ public class AddCar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(UpdateButton)
-                    .addComponent(AddButton)
-                    .addComponent(EditButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(AddButton)
+                        .addComponent(EditButton)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -241,27 +225,12 @@ public class AddCar extends javax.swing.JFrame {
         jTextField4.setText("");
         jTextArea1.setText("");
         
-        clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable2.getModel();
-        for(Car currentCar: cars)    
-           model.addRow(new Object[] {currentCar.getLicensePlate(), currentCar.getBrand(), currentCar.getModel(), currentCar.getPrice(), currentCar.getDescription()});
+        updateTable();
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
         // TODO add your handling code here:
-        clearTable();
-        cars = mySQL.ShowTable();
-        
-        model = (DefaultTableModel) jTable2.getModel();
-        for(Car c: cars)    
-           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
-    }                 
-    public void clearTable(){
-        model=(DefaultTableModel) jTable2.getModel();
-        model.getDataVector().removeAllElements();
-        model.fireTableDataChanged(); // notifies the JTable that the model has changed
+        updateTable();                      
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButtonActionPerformed
@@ -274,6 +243,8 @@ public class AddCar extends javax.swing.JFrame {
         
         Car bnew = new Car (licensePlate, brand, models, price, descrip);
         mySQL.EditRow(bnew, oldLicensePlate);
+        
+        updateTable();
     }//GEN-LAST:event_EditButtonActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
@@ -291,6 +262,16 @@ public class AddCar extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTable2MouseClicked
 
+    private void updateTable(){
+        model=(DefaultTableModel) jTable2.getModel();
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged(); // notifies the JTable that the model has changed
+        cars = mySQL.ShowTable();
+        
+        model = (DefaultTableModel) jTable2.getModel();
+        for(Car c: cars)    
+           model.addRow(new Object[] {c.getLicensePlate(), c.getBrand(), c.getModel(), c.getPrice(), c.getDescription()});
+    }
     
     /**
      * @param args the command line arguments

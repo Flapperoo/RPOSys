@@ -6,21 +6,14 @@
 package RentDraft;
 
 
-import RentDraft.MySqlClass;
-import RentDraft.Car;
 import java.util.Date;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
@@ -43,7 +36,7 @@ public class RentCar extends javax.swing.JFrame {
     
     public RentCar() {
         initComponents();
-        UpdateTable();
+        updateTable();
     }
 
     /**
@@ -86,8 +79,8 @@ public class RentCar extends javax.swing.JFrame {
         jLabel2.setText("Rent by:");
 
         SpinnerDateModel smodel = new SpinnerDateModel();
-        smodel.setStart(new java.util.Date());
-        smodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));
+        smodel.setStart(new java.util.Date(System.currentTimeMillis() - 3600 * 24000));
+        smodel.setValue(new java.util.Date());
         smodel.setCalendarField(Calendar.SECOND);
         jSpinner1.setModel(smodel);
         jSpinner1.setEditor(new JSpinner.DateEditor(jSpinner1, "dd/MM/yyyy"));
@@ -99,8 +92,8 @@ public class RentCar extends javax.swing.JFrame {
         jLabel7.setText("Model:");
 
         SpinnerDateModel nmodel = new SpinnerDateModel();
-        nmodel.setStart(new java.util.Date());
-        nmodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));
+        nmodel.setStart(new java.util.Date(System.currentTimeMillis() - 3600 * 24000));
+        nmodel.setValue(new java.util.Date());
         nmodel.setCalendarField(Calendar.SECOND);
         jSpinner2.setModel(nmodel);
         jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, "dd/MM/yyyy"));
@@ -266,7 +259,6 @@ public class RentCar extends javax.swing.JFrame {
         String brand = jTextField2.getText();
         String models = jTextField3.getText();
         String descrip = jTextArea1.getText();
-        String carStatus = jTextField4.getText();
         Double price = Double.parseDouble(jTextField5.getText());
         
         SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd");
@@ -276,7 +268,7 @@ public class RentCar extends javax.swing.JFrame {
         Car bnew = new Car (licensePlate, brand, models, price, descrip, dateRented, rentUntil);
         mySQL.ReplaceStatus(bnew, oldLicensePlate);
         
-        
+        updateTable();
     }//GEN-LAST:event_RentButtonActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
@@ -287,27 +279,7 @@ public class RentCar extends javax.swing.JFrame {
         jTextField1.setText(model.getValueAt(selectedRowIndex, 0).toString());
         jTextField2.setText(model.getValueAt(selectedRowIndex, 1).toString());
         jTextField3.setText(model.getValueAt(selectedRowIndex, 2).toString());
-        Date currentDate = (Date) jSpinner1.getValue();
-        SimpleDateFormat fm1 = new SimpleDateFormat("yyyy-MM-dd");
-        String startDateRaw = (String) model.getValueAt(selectedRowIndex, 5);
-        String endDateRaw = (String) model.getValueAt(selectedRowIndex, 6);
-        if(startDateRaw != null || endDateRaw != null){
-            try {
-                Date startDate = fm1.parse(startDateRaw);
-                Date endDate = fm1.parse(endDateRaw);
-                if(currentDate.before(endDate)){
-                jTextField4.setText("Out");
-                } else if(currentDate.before(startDate)){
-                    jTextField4.setText("Booked");
-                } else {
-                    jTextField4.setText("Available");
-                }
-            } catch (ParseException ex) {
-                Logger.getLogger(RentCar.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            jTextField4.setText("Available");
-        }
+        jTextField4.setText(model.getValueAt(selectedRowIndex, 7).toString());
         jTextField5.setText(model.getValueAt(selectedRowIndex, 3).toString());
         jTextArea1.setText(model.getValueAt(selectedRowIndex, 4).toString());
         
@@ -316,9 +288,7 @@ public class RentCar extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void UpdateButtonRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonRentActionPerformed
-
-        UpdateTable();
-        
+        updateTable();        
     }//GEN-LAST:event_UpdateButtonRentActionPerformed
 
     private void showOnlyAvailableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showOnlyAvailableButtonActionPerformed
@@ -401,7 +371,7 @@ public class RentCar extends javax.swing.JFrame {
     private javax.swing.JButton showOnlyAvailableButton;
     // End of variables declaration//GEN-END:variables
 
-    private void UpdateTable() {
+    private void updateTable() {
         clearTable();
         cars = mySQL.ShowTable();
         model = (DefaultTableModel) jTable2.getModel();
@@ -415,6 +385,10 @@ public class RentCar extends javax.swing.JFrame {
                  try {
                      Date startDate = fm1.parse(startDateRaw);
                      Date endDate = fm1.parse(endDateRaw);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(endDate);
+                    cal.add(Calendar.DATE, 1);
+                endDate = cal.getTime();
                      if(currentDate.before(startDate)){
                      status = "Booked";
                      } else if(currentDate.before(endDate)){

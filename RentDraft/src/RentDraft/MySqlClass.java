@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -56,8 +55,7 @@ public class MySqlClass {
         try{
             myStatement = myConnection.createStatement();    
             String sql = "INSERT INTO CARS (licensePlate, brand, model, price, description) VALUES ('"+bnew.getLicensePlate()+"', '"+bnew.getBrand()+"', '"+bnew.getModel()+"', '"+bnew.getPrice()+"', '"+bnew.getDescription()+"')";
-            myStatement.executeUpdate(sql);
-            myConnection.commit();        
+            myStatement.executeUpdate(sql);        
             myStatement.close();    
             JOptionPane.showMessageDialog(null, "New Rental Car Added Successfully");
             
@@ -73,10 +71,9 @@ public class MySqlClass {
         getConnection();
         try{
             myStatement = myConnection.createStatement();    
-            String sql = "UPDATE CARS SET licensePlate = '"+bnew.getLicensePlate()+"', brand = '"+bnew.getBrand()+"', model = '"+bnew.getModel()+"', price = '"+bnew.getPrice()+"', description = '"+bnew.getDescription()+"', dateRented = '"+bnew.getDateRented()+"', rentUntil = '"+bnew.getRentUntil()+"' WHERE licensePlate = '"+ oldLicensePlate+"'";
+            String sql = "UPDATE CARS SET dateRented = '"+bnew.getDateRented()+"', rentUntil = '"+bnew.getRentUntil()+"' WHERE licensePlate = '"+ oldLicensePlate+"'";
             
-            myStatement.executeUpdate(sql);
-            myConnection.commit();        
+            myStatement.executeUpdate(sql);        
             myStatement.close();    
             JOptionPane.showMessageDialog(null, "Status Updated Successfully");
             

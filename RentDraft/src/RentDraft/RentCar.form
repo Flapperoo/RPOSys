@@ -167,7 +167,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jSpinner1.setEditor(new JSpinner.DateEditor(jSpinner1, &quot;dd/MM/yyyy&quot;));"/>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="SpinnerDateModel smodel = new SpinnerDateModel();&#xa;smodel.setStart(new java.util.Date());&#xa;smodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));&#xa;smodel.setCalendarField(Calendar.SECOND);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="SpinnerDateModel smodel = new SpinnerDateModel();&#xa;smodel.setStart(new java.util.Date(System.currentTimeMillis() - 3600 * 24000));&#xa;smodel.setValue(new java.util.Date());&#xa;smodel.setCalendarField(Calendar.SECOND);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -193,7 +193,7 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jSpinner2.setEditor(new JSpinner.DateEditor(jSpinner2, &quot;dd/MM/yyyy&quot;));"/>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="SpinnerDateModel nmodel = new SpinnerDateModel();&#xa;nmodel.setStart(new java.util.Date());&#xa;nmodel.setValue(new java.util.Date(System.currentTimeMillis() + 3600 * 1000));&#xa;nmodel.setCalendarField(Calendar.SECOND);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="SpinnerDateModel nmodel = new SpinnerDateModel();&#xa;nmodel.setStart(new java.util.Date(System.currentTimeMillis() - 3600 * 24000));&#xa;nmodel.setValue(new java.util.Date());&#xa;nmodel.setCalendarField(Calendar.SECOND);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">

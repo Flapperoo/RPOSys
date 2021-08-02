@@ -19,7 +19,6 @@ public class Car {
     private double price;
     private String dateRented;
     private String rentUntil;
-    private String carStatus;
     
     Car (String licensePlate, String brand, String model, double price, String description,  String dateRented, String rentUntil){
     
@@ -38,22 +37,6 @@ public class Car {
         this.description = descrip;
         this.price = price;
         this.model = model;
-    }
-    
-    Car(String licensePlate, String brand, String model, double price, String descrip, String carStatus) {
-        this.licensePlate = licensePlate;
-        this.brand = brand;
-        this.description = descrip;
-        this.price = price;
-        this.model = model;
-        this.carStatus = carStatus;
-    }
-    
-    Car(String licensePlate, String brand, String model, String carStatus) {
-        this.licensePlate = licensePlate;
-        this.brand = brand;
-        this.model = model;
-        this.carStatus = carStatus;
     }
 
     public String getModel() {
@@ -74,11 +57,6 @@ public class Car {
     public String getLicensePlate() {
         return licensePlate;
     }
-    
-    public String getCarStatus() {
-        return carStatus;
-    }
-
 
     public double getPrice() {
         return price;

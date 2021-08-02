@@ -5,8 +5,6 @@
  */
 package RentDraft;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
@@ -284,7 +282,6 @@ public class SearchByPriceRange extends SearchByClass {
 
     @Override
     protected void showList(JComboBox jComboBox1) {
-        return;
     }
 
     @Override
